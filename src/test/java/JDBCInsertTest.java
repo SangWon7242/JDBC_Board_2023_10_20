@@ -1,8 +1,9 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class JDBCTest {
+public class JDBCInsertTest {
   public static void main(String[] args) {
     // JDBC 드라이버 클래스 이름
     String jdbcDriver = "com.mysql.cj.jdbc.Driver";
@@ -13,6 +14,15 @@ public class JDBCTest {
     String password = "sbs123414";
 
     Connection conn = null;
+    PreparedStatement pstat = null;
+
+    String sql = "INSERT INTO article";
+    sql += " SET regDate = NOW()";
+    sql += ", updateDate = NOW()";
+    sql += ", title = CONCAT(\"제목\", RAND())";
+    sql += ", `content` = CONCAT(\"내용\", RAND());";
+
+    System.out.println("sql : " + sql);
 
     try {
       // JDBC 드라이버 로드
@@ -21,9 +31,11 @@ public class JDBCTest {
       // 데이터베이스에 연결
       conn = DriverManager.getConnection(url, username, password);
 
-      // 연결이 성공한 경우, 여기에서 작업을 수행할 수 있습니다.
-      // 예: 쿼리 실행, 데이터베이스 조회 등
-      System.out.println("연결 성공");
+      pstat = conn.prepareStatement(sql);
+
+      pstat.executeUpdate();
+      int affectedRows = pstat.executeUpdate();
+      System.out.printf("affectedRows : " + affectedRows);
 
     } catch (ClassNotFoundException e) {
       System.out.println("드라이버 로딩 실패");
@@ -34,6 +46,13 @@ public class JDBCTest {
         if (conn != null && !conn.isClosed()) {
           // 연결 닫기
           conn.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      try {
+        if(pstat != null && !pstat.isClosed()) {
+          pstat.close();
         }
       } catch (SQLException e) {
         e.printStackTrace();
