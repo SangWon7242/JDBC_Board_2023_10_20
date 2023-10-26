@@ -206,6 +206,18 @@ public class App {
         System.out.printf("로그인 아이디 : ");
         loginId = sc.nextLine().trim();
 
+        SecSql sql = new SecSql();
+        sql.append("SELECT COUNT(*) > 0");
+        sql.append("FROM `member`");
+        sql.append("WHERE loginId = ?", loginId);
+
+        boolean isLoginDup = DBUtil.selectRowBooleanValue(conn, sql);
+
+        if(isLoginDup) {
+          System.out.printf("\"%s\"(은)는 이미 사용중인 아이디입니다.\n", loginId);
+          continue;
+        }
+
         if(loginId.length() == 0) {
           System.out.println("로그인 아이디를 입력해주세요.");
           continue;

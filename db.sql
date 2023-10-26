@@ -26,7 +26,7 @@ CREATE TABLE `member` (
 	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
 	updateDate DATETIME NOT NULL,
-	loginId CHAR(20) NOT NULL,
+	loginId CHAR(20) NOT NULL UNIQUE, # 로그인 아이디는 중복되면 안된다. 그래서 UNIQUE를 걸어줘야함
 	loginPw CHAR(100) NOT NULL,
 	`name` CHAR(100) NOT NULL
 );
