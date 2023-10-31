@@ -7,17 +7,7 @@ import com.sbs.jdbc.util.SecSql;
 import java.sql.Connection;
 import java.util.Scanner;
 
-public class MemberController {
-  private Connection conn;
-  private Scanner sc;
-
-  public void setConn(Connection conn) {
-    this.conn = conn;
-  }
-
-  public void setScanner(Scanner scanner) {
-    this.sc = Container.scanner;
-  }
+public class MemberController extends Controller {
 
   public void join() {
     String loginId;

@@ -3,12 +3,12 @@ package com.sbs.jdbc;
 import java.util.Map;
 
 public class Member {
-  int id;
-  String regDate;
-  String updateDate;
-  String loginId;
-  String loginPw;
-  String name;
+  public int id;
+  public String regDate;
+  public String updateDate;
+  public String loginId;
+  public String loginPw;
+  public String name;
 
   public Member(int id, String regDate, String updateDate, String loginId, String loginPw, String name) {
     this.id = id;
