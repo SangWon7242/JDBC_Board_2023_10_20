@@ -3,13 +3,10 @@ package com.sbs.jdbc;
 import com.sbs.jdbc.container.Container;
 import com.sbs.jdbc.controller.ArticleController;
 import com.sbs.jdbc.controller.MemberController;
-import com.sbs.jdbc.util.DBUtil;
-import com.sbs.jdbc.util.SecSql;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class App {
@@ -42,7 +39,9 @@ public class App {
         // 데이터베이스에 연결
         conn = DriverManager.getConnection(url, "sbsst", "sbs123414");
 
-        action(conn, sc, cmd, rq);
+        Container.conn = conn;
+
+        action(cmd, rq);
 
       } catch (SQLException e) {
         System.out.println("에러 : " + e);
@@ -62,29 +61,19 @@ public class App {
     sc.close();
   }
 
-  private void action(Connection conn, Scanner sc, String cmd, Rq rq) {
-    MemberController memberController = Container.memberController;
-    memberController.setConn(conn);
-    memberController.setScanner(sc);
-
-    ArticleController articleController = Container.articleController;
-    articleController.setConn(conn);
-    articleController.setScanner(sc);
-
-    PreparedStatement pstat = null;
-
+  private void action(String cmd, Rq rq) {
     if (rq.getUrlPath().equals("/usr/article/write")) {
-      articleController.doWrite();
+      Container.articleController.doWrite();
     } else if (rq.getUrlPath().equals("/usr/article/list")) {
-      articleController.showList();
+      Container.articleController.showList();
     } else if (rq.getUrlPath().equals("/usr/article/detail")) {
-      articleController.showDetail(rq);
+      Container.articleController.showDetail(rq);
     } else if (rq.getUrlPath().equals("/usr/article/modify")) {
-      articleController.doModify(rq);
+      Container.articleController.doModify(rq);
     } else if (rq.getUrlPath().equals("/usr/article/delete")) {
-      articleController.doDelete(rq);
+      Container.articleController.doDelete(rq);
     } else if (cmd.equals("/usr/member/join")) {
-      memberController.join();
+      Container.memberController.join();
     } else if (rq.getUrlPath().equals("exit")) {
       System.out.println("프로그램 종료");
       System.exit(0);

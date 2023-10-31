@@ -4,10 +4,8 @@ import com.sbs.jdbc.container.Container;
 import com.sbs.jdbc.util.DBUtil;
 import com.sbs.jdbc.util.SecSql;
 
-import java.sql.Connection;
-import java.util.Scanner;
-
 public class MemberController extends Controller {
+
 
   public void join() {
     String loginId;
@@ -20,14 +18,14 @@ public class MemberController extends Controller {
     // 로그인 아이디 입력
     while (true) {
       System.out.printf("로그인 아이디 : ");
-      loginId = sc.nextLine().trim();
+      loginId = Container.scanner.nextLine().trim();
 
       SecSql sql = new SecSql();
       sql.append("SELECT COUNT(*) > 0");
       sql.append("FROM `member`");
       sql.append("WHERE loginId = ?", loginId);
 
-      boolean isLoginDup = DBUtil.selectRowBooleanValue(conn, sql);
+      boolean isLoginDup = DBUtil.selectRowBooleanValue(Container.conn, sql);
 
       if (isLoginDup) {
         System.out.printf("\"%s\"(은)는 이미 사용중인 아이디입니다.\n", loginId);
@@ -45,7 +43,7 @@ public class MemberController extends Controller {
     // 로그인 비번 입력
     while (true) {
       System.out.printf("로그인 비번 : ");
-      loginPw = sc.nextLine().trim();
+      loginPw = Container.scanner.nextLine().trim();
 
       if (loginPw.length() == 0) {
         System.out.println("로그인 비번을 입력해주세요.");
@@ -56,7 +54,7 @@ public class MemberController extends Controller {
 
       while (true) {
         System.out.printf("로그인 비번확인 : ");
-        loginPwConfirm = sc.nextLine().trim();
+        loginPwConfirm = Container.scanner.nextLine().trim();
 
         if (loginPwConfirm.length() == 0) {
           System.out.println("로그인 비번확인을 입력해주세요.");
@@ -81,7 +79,7 @@ public class MemberController extends Controller {
     // 이름 입력
     while (true) {
       System.out.printf("이름 : ");
-      name = sc.nextLine().trim();
+      name = Container.scanner.nextLine().trim();
 
       if (name.length() == 0) {
         System.out.println("이름를 입력해주세요.");
@@ -99,7 +97,7 @@ public class MemberController extends Controller {
     sql.append(", loginPw = ?", loginPw);
     sql.append(", name = ?", name);
 
-    DBUtil.insert(conn, sql);
+    DBUtil.insert(Container.conn, sql);
 
     System.out.printf("\"%s\"님 회원 가입을 환영합니다.\n", name);
   }
