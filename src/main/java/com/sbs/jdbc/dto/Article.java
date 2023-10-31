@@ -1,4 +1,4 @@
-package com.sbs.jdbc;
+package com.sbs.jdbc.dto;
 
 import java.util.Map;
 

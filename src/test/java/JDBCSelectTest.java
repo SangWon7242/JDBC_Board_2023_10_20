@@ -1,4 +1,4 @@
-import com.sbs.jdbc.Article;
+import com.sbs.jdbc.dto.Article;
 
 import java.sql.*;
 import java.util.ArrayList;

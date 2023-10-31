@@ -1,13 +1,10 @@
 package com.sbs.jdbc.controller;
 
-import com.sbs.jdbc.Article;
+import com.sbs.jdbc.dto.Article;
 import com.sbs.jdbc.Rq;
 import com.sbs.jdbc.container.Container;
 import com.sbs.jdbc.service.ArticleService;
-import com.sbs.jdbc.util.DBUtil;
-import com.sbs.jdbc.util.SecSql;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

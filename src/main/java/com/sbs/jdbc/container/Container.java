@@ -1,7 +1,5 @@
 package com.sbs.jdbc.container;
 
-import com.sbs.jdbc.Article;
-import com.sbs.jdbc.Rq;
 import com.sbs.jdbc.controller.ArticleController;
 import com.sbs.jdbc.controller.MemberController;
 import com.sbs.jdbc.repository.ArticleRepository;
