@@ -50,7 +50,7 @@ public class ArticleController extends Controller {
     System.out.println("번호 / 제목");
 
     for (Article article : articles) {
-      System.out.printf("%d / %s\n", article.id, article.title);
+      System.out.printf("%d / %s\n", article.getId(), article.getTitle());
     }
   }
 
@@ -68,10 +68,10 @@ public class ArticleController extends Controller {
 
     Article article = new Article(articleMap);
 
-    System.out.printf("번호 : %d\n", article.id);
-    System.out.printf("작성날짜 : %s\n", article.regDate);
-    System.out.printf("제목 : %s\n", article.title);
-    System.out.printf("내용 : %s\n", article.content);
+    System.out.printf("번호 : %d\n", article.getId());
+    System.out.printf("작성날짜 : %s\n", article.getRegDate());
+    System.out.printf("제목 : %s\n", article.getTitle());
+    System.out.printf("내용 : %s\n", article.getContent());
   }
 
   public void doModify(Rq rq) {
