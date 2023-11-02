@@ -1,6 +1,7 @@
 package com.sbs.jdbc.service;
 
 import com.sbs.jdbc.container.Container;
+import com.sbs.jdbc.dto.Article;
 import com.sbs.jdbc.repository.ArticleRepository;
 
 import java.util.List;
@@ -17,12 +18,8 @@ public class ArticleService {
     return articleRepository.write(memberId, title, content);
   }
 
-  public List<Map<String, Object>> getArticlesListMap() {
-    return articleRepository.getArticlesListMap();
-  }
-
-  public Map<String, Object> getArticleMap(int id) {
-    return articleRepository.getArticleMap(id);
+  public List<Article> getArticles() {
+    return articleRepository.getArticles();
   }
 
   public int getArticleCount(int id) {
@@ -35,5 +32,9 @@ public class ArticleService {
 
   public void delete(int id) {
     articleRepository.delete(id);
+  }
+
+  public Article getArticleById(int id) {
+    return articleRepository.getArticleById(id);
   }
 }

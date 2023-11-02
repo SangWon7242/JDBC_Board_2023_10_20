@@ -1,9 +1,11 @@
 package com.sbs.jdbc.repository;
 
 import com.sbs.jdbc.container.Container;
+import com.sbs.jdbc.dto.Article;
 import com.sbs.jdbc.util.DBUtil;
 import com.sbs.jdbc.util.SecSql;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,22 +24,23 @@ public class ArticleRepository {
     return id;
   }
 
-  public List<Map<String, Object>> getArticlesListMap() {
+  public List<Article> getArticles() {
     SecSql sql = new SecSql();
-    sql.append("SELECT *");
-    sql.append("FROM article");
+    sql.append("SELECT A.*, M.name AS extra__writerName");
+    sql.append("FROM article AS A");
+    sql.append("INNER JOIN `member` AS M");
+    sql.append("ON A.memberId = M.id");
     sql.append("ORDER BY id DESC");
 
-    return DBUtil.selectRows(Container.conn, sql);
-  }
+    List<Article> articles = new ArrayList<>();
 
-  public Map<String, Object> getArticleMap(int id) {
-    SecSql sql = new SecSql();
-    sql.append("SELECT *");
-    sql.append("FROM article");
-    sql.append("WHERE id = ?", id);
+    List<Map<String, Object>> articlesMap = DBUtil.selectRows(Container.conn, sql);
 
-    return DBUtil.selectRow(Container.conn, sql);
+    for(Map<String, Object> articleMap : articlesMap) {
+      articles.add(new Article(articleMap));
+    }
+
+    return articles;
   }
 
   public int getArticleCount(int id) {
@@ -66,5 +69,20 @@ public class ArticleRepository {
     sql.append(" WHERE id = ?", id);
 
     DBUtil.delete(Container.conn, sql);
+  }
+
+  public Article getArticleById(int id) {
+    SecSql sql = new SecSql();
+    sql.append("SELECT *");
+    sql.append("FROM article");
+    sql.append("WHERE id = ?", id);
+
+    Map<String, Object> articleMap = DBUtil.selectRow(Container.conn, sql);
+
+    if(articleMap.isEmpty()) {
+      return null;
+    }
+
+    return new Article(articleMap);
   }
 }

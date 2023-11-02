@@ -38,25 +38,19 @@ public class ArticleController extends Controller {
   }
 
   public void showList() {
-    List<Article> articles = new ArrayList<>();
-
-    List<Map<String, Object>> articlesListMap = articleService.getArticlesListMap();
-
-    for (Map<String, Object> articleMap : articlesListMap) {
-      articles.add(new Article(articleMap));
-    }
-
-    System.out.println("== 게시물 리스트 ==");
+    List<Article> articles = articleService.getArticles();
 
     if (articles.isEmpty()) {
       System.out.println("게시물이 존재하지 않습니다.");
       return;
     }
 
-    System.out.println("번호 / 제목");
+    System.out.println("== 게시물 리스트 ==");
+
+    System.out.println("번호 / 작성날짜 / 제목 / 작성자");
 
     for (Article article : articles) {
-      System.out.printf("%d / %s\n", article.getId(), article.getTitle());
+      System.out.printf("%d / %s / %s / %s\n", article.getId(), article.getRegDate(), article.getExtra__writerName(), article.getTitle());
     }
   }
 
@@ -65,14 +59,7 @@ public class ArticleController extends Controller {
 
     System.out.println("== 게시물 상세보기 ==");
 
-    Map<String, Object> articleMap = articleService.getArticleMap(id);
-
-    if (articleMap.isEmpty()) {
-      System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
-      return;
-    }
-
-    Article article = new Article(articleMap);
+    Article article = articleService.getArticleById(id);
 
     System.out.printf("번호 : %d\n", article.getId());
     System.out.printf("작성날짜 : %s\n", article.getRegDate());
