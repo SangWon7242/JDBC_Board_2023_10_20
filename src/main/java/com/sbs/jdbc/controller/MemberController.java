@@ -99,6 +99,11 @@ public class MemberController extends Controller {
     String loginId;
     String loginPw;
 
+    if(Container.session.loginedMember != null) {
+      System.out.println("현재 로그인 되어 있습니다.");
+      return;
+    }
+
     System.out.println("== 로그인 ==");
 
     System.out.printf("로그인 아이디 : ");
