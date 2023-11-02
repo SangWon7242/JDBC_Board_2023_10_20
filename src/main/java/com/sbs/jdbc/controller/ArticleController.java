@@ -18,6 +18,11 @@ public class ArticleController extends Controller {
   }
 
   public void doWrite() {
+    if (Container.session.loginedMember == null) {
+      System.out.println("로그인 후 사용할 수 있는 기능입니다.");
+      return;
+    }
+
     System.out.println("== 게시물 등록 ==");
 
     System.out.printf("제목 : ");
@@ -26,7 +31,8 @@ public class ArticleController extends Controller {
     System.out.printf("내용 : ");
     String content = scanner.nextLine();
 
-    int id = articleService.write(title, content);
+    int memberId = Container.session.loginedMember.getId();
+    int id = articleService.write(memberId, title, content);
 
     System.out.printf("%d번 게시물을 작성하였습니다.\n", id);
   }

@@ -30,3 +30,28 @@ CREATE TABLE `member` (
 	loginPw CHAR(100) NOT NULL,
 	`name` CHAR(100) NOT NULL
 );
+
+# 임시 회원
+INSERT INTO `member`
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = 'user1',
+loginPw = '1234',
+`name` = '홍길동';
+
+INSERT INTO `member`
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = 'user2',
+loginPw = '1234',
+`name` = '홍길순';
+
+INSERT INTO `member`
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = 'user3',
+loginPw = '1234',
+`name` = '임꺽정';
+
+# 게시물 테이블에 memberId 칼럼 추가
+ALTER TABLE article ADD COLUMN memberId INT(10) UNSIGNED NOT NULL AFTER updateDate;
