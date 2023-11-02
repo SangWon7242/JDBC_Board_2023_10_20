@@ -41,10 +41,11 @@ public class JDBCSelectTest {
         int id = rs.getInt("id");
         String regDate = rs.getString("regDate");
         String updateDate = rs.getString("updateDate");
+        int memberId = rs.getInt("memberId");
         String title = rs.getString("title");
         String content = rs.getString("content");
 
-        Article article = new Article(id, regDate, updateDate, title, content);
+        Article article = new Article(id, regDate, updateDate, memberId, title, content);
         articles.add(article);
       }
 

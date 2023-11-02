@@ -12,7 +12,7 @@ public class Article {
   private int id;
   private  String regDate;
   private String updateDate;
-  private String memberId;
+  private int memberId;
   private String title;
   private String content;
 
@@ -20,7 +20,7 @@ public class Article {
     this.id = (int) articleMap.get("id");
     this.regDate = (String) articleMap.get("regDate");
     this.updateDate = (String) articleMap.get("updateDate");
-    this.memberId = (String) articleMap.get("memberId");
+    this.memberId = (int) articleMap.get("memberId");
     this.title = (String) articleMap.get("title");
     this.content = (String) articleMap.get("content");
   }

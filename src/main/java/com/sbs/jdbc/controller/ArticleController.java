@@ -18,8 +18,8 @@ public class ArticleController extends Controller {
   }
 
   public void doWrite() {
-    if (Container.session.loginedMember == null) {
-      System.out.println("로그인 후 사용할 수 있는 기능입니다.");
+    if (Container.session.isLogined() == false) {
+      System.out.println("로그인 후 이용해주세요.");
       return;
     }
 
@@ -81,6 +81,11 @@ public class ArticleController extends Controller {
   }
 
   public void doModify(Rq rq) {
+    if (Container.session.isLogined() == false) {
+      System.out.println("로그인 후 이용해주세요.");
+      return;
+    }
+
     int id = rq.getIntParam("id", 0);
 
     System.out.println("== 게시물 수정 ==");
@@ -103,6 +108,11 @@ public class ArticleController extends Controller {
   }
 
   public void doDelete(Rq rq) {
+    if (Container.session.isLogined() == false) {
+      System.out.println("로그인 후 이용해주세요.");
+      return;
+    }
+
     int id = rq.getIntParam("id", 0);
 
     System.out.println("== 게시물 삭제 ==");
