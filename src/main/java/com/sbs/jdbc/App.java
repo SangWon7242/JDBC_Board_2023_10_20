@@ -74,6 +74,8 @@ public class App {
       Container.articleController.doDelete(rq);
     } else if (cmd.equals("/usr/member/join")) {
       Container.memberController.join();
+    } else if (cmd.equals("/usr/member/login")) {
+      Container.memberController.login();
     } else if (rq.getUrlPath().equals("exit")) {
       System.out.println("프로그램 종료");
       System.exit(0);

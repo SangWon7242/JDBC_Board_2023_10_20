@@ -10,6 +10,18 @@ public class Member {
   public String loginPw;
   public String name;
 
+  public String getLoginId() {
+    return loginId;
+  }
+
+  public String getLoginPw() {
+    return loginPw;
+  }
+
+  public String getName() {
+    return name;
+  }
+
   public Member(int id, String regDate, String updateDate, String loginId, String loginPw, String name) {
     this.id = id;
     this.regDate = regDate;

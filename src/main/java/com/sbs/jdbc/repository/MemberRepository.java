@@ -1,8 +1,11 @@
 package com.sbs.jdbc.repository;
 
 import com.sbs.jdbc.container.Container;
+import com.sbs.jdbc.dto.Member;
 import com.sbs.jdbc.util.DBUtil;
 import com.sbs.jdbc.util.SecSql;
+
+import java.util.Map;
 
 public class MemberRepository {
   public boolean isLoginDup(String loginId) {
@@ -24,5 +27,20 @@ public class MemberRepository {
     sql.append(", name = ?", name);
 
     DBUtil.insert(Container.conn, sql);
+  }
+
+  public Member getMemberByLoginId(String loginId) {
+    SecSql sql = new SecSql();
+    sql.append("SELECT *");
+    sql.append("FROM `member`");
+    sql.append("WHERE loginId = ?", loginId);
+
+    Map<String, Object> memberMap = DBUtil.selectRow(Container.conn, sql);
+
+    if(memberMap.isEmpty()) {
+      return null;
+    }
+
+    return new Member(memberMap);
   }
 }
