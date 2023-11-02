@@ -6,12 +6,14 @@ import com.sbs.jdbc.repository.ArticleRepository;
 import com.sbs.jdbc.repository.MemberRepository;
 import com.sbs.jdbc.service.ArticleService;
 import com.sbs.jdbc.service.MemberService;
+import com.sbs.jdbc.session.Session;
 
 import java.sql.Connection;
 import java.util.Scanner;
 
 public class Container {
   public static Scanner scanner;
+  public static Session session;
   public static MemberRepository memberRepository;
   public static ArticleRepository articleRepository;
 
@@ -25,6 +27,7 @@ public class Container {
 
   static {
     scanner = new Scanner(System.in);
+    session = new Session();
 
     memberRepository = new MemberRepository();
     articleRepository = new ArticleRepository();

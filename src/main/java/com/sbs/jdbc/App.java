@@ -41,7 +41,7 @@ public class App {
 
         Container.conn = conn;
 
-        action(cmd, rq);
+        action(rq);
 
       } catch (SQLException e) {
         System.out.println("에러 : " + e);
@@ -61,7 +61,7 @@ public class App {
     sc.close();
   }
 
-  private void action(String cmd, Rq rq) {
+  private void action(Rq rq) {
     if (rq.getUrlPath().equals("/usr/article/write")) {
       Container.articleController.doWrite();
     } else if (rq.getUrlPath().equals("/usr/article/list")) {
@@ -72,10 +72,12 @@ public class App {
       Container.articleController.doModify(rq);
     } else if (rq.getUrlPath().equals("/usr/article/delete")) {
       Container.articleController.doDelete(rq);
-    } else if (cmd.equals("/usr/member/join")) {
+    } else if (rq.getUrlPath().equals("/usr/member/join")) {
       Container.memberController.join();
-    } else if (cmd.equals("/usr/member/login")) {
+    } else if (rq.getUrlPath().equals("/usr/member/login")) {
       Container.memberController.login();
+    } else if (rq.getUrlPath().equals("/usr/member/whoami")) {
+      Container.memberController.whoami();
     } else if (rq.getUrlPath().equals("exit")) {
       System.out.println("프로그램 종료");
       System.exit(0);
