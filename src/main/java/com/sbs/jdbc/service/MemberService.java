@@ -11,12 +11,16 @@ public class MemberService {
     memberRepository = Container.memberRepository;
   }
 
-  public boolean isLoginDup(String loginId) {
-    return memberRepository.isLoginDup(loginId);
+  public boolean isLoginIdDup(String loginId) {
+    return memberRepository.isLoginIdDup(loginId);
   }
 
-  public void join(String loginId, String loginPw, String name) {
-    memberRepository.join(loginId, loginPw, name);
+  public boolean isLoginEmailDup(String email) {
+    return memberRepository.isLoginEmailDup(email);
+  }
+
+  public void join(String loginId, String loginPw, String name, String email) {
+    memberRepository.join(loginId, loginPw, name, email);
   }
 
   public Member getMemberByLoginId(String loginId) {
@@ -34,4 +38,5 @@ public class MemberService {
   public int checkLoginIdEmailMatch(String loginId, String email) {
     return memberRepository.checkLoginIdEmailMatch(loginId, email);
   }
+
 }

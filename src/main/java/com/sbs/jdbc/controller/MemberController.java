@@ -18,6 +18,7 @@ public class MemberController extends Controller {
     String loginPw;
     String loginPwConfirm;
     String name;
+    String email;
 
     System.out.println("== 회원 가입 ==");
 
@@ -26,9 +27,9 @@ public class MemberController extends Controller {
       System.out.printf("로그인 아이디 : ");
       loginId = scanner.nextLine().trim();
 
-      boolean isLoginDup = memberService.isLoginDup(loginId);
+      boolean isLoginIdDup = memberService.isLoginIdDup(loginId);
 
-      if (isLoginDup) {
+      if (isLoginIdDup) {
         System.out.printf("\"%s\"(은)는 이미 사용중인 아이디입니다.\n", loginId);
         continue;
       }
@@ -83,14 +84,34 @@ public class MemberController extends Controller {
       name = scanner.nextLine().trim();
 
       if (name.length() == 0) {
-        System.out.println("이름를 입력해주세요.");
+        System.out.println("이름을 입력해주세요.");
         continue;
       }
 
       break;
     }
 
-    memberService.join(loginId, loginPw, name);
+    // 이름 입력
+    while (true) {
+      System.out.printf("이메일 : ");
+      email = scanner.nextLine().trim();
+
+      if (email.length() == 0) {
+        System.out.println("이메일을 입력해주세요.");
+        continue;
+      }
+
+      boolean isLoginEmailDup = memberService.isLoginEmailDup(email);
+
+      if (isLoginEmailDup) {
+        System.out.printf("\"%s\"(은)는 이미 사용중인 이메일입니다.\n", email);
+        continue;
+      }
+
+      break;
+    }
+
+    memberService.join(loginId, loginPw, name, email);
 
     System.out.printf("\"%s\"님 회원 가입을 환영합니다.\n", name);
   }

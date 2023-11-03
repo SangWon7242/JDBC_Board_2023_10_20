@@ -8,7 +8,7 @@ import com.sbs.jdbc.util.SecSql;
 import java.util.Map;
 
 public class MemberRepository {
-  public boolean isLoginDup(String loginId) {
+  public boolean isLoginIdDup(String loginId) {
     SecSql sql = new SecSql();
     sql.append("SELECT COUNT(*) > 0");
     sql.append("FROM `member`");
@@ -17,7 +17,16 @@ public class MemberRepository {
     return DBUtil.selectRowBooleanValue(Container.conn, sql);
   }
 
-  public void join(String loginId, String loginPw, String name) {
+  public boolean isLoginEmailDup(String email) {
+    SecSql sql = new SecSql();
+    sql.append("SELECT COUNT(*) > 0");
+    sql.append("FROM `member`");
+    sql.append("WHERE email = ?", email);
+
+    return DBUtil.selectRowBooleanValue(Container.conn, sql);
+  }
+
+  public void join(String loginId, String loginPw, String name, String email) {
     SecSql sql = new SecSql();
     sql.append("INSERT INTO `member`");
     sql.append("SET regDate = NOW()");
@@ -25,6 +34,7 @@ public class MemberRepository {
     sql.append(", loginId = ?", loginId);
     sql.append(", loginPw = ?", loginPw);
     sql.append(", name = ?", name);
+    sql.append(", email = ?", email);
 
     DBUtil.insert(Container.conn, sql);
   }
@@ -78,4 +88,5 @@ public class MemberRepository {
 
     return DBUtil.selectRowIntValue(Container.conn, sql);
   }
+
 }
