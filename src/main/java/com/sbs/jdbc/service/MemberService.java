@@ -22,4 +22,12 @@ public class MemberService {
   public Member getMemberByLoginId(String loginId) {
     return memberRepository.getMemberByLoginId(loginId);
   }
+
+  public Member getMemberByEmail(String email) {
+    return memberRepository.getMemberByEmail(email);
+  }
+
+  public void findLoginPw(String loginId, String email, String loginPw) {
+    memberRepository.findLoginPw(loginId, email, loginPw);
+  }
 }

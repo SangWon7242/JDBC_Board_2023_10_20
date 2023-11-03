@@ -170,4 +170,70 @@ public class MemberController extends Controller {
     Container.session.logout();
     System.out.println("로그아웃 되었습니다.");
   }
+
+  public void findLoginPw() {
+
+    if(Container.session.isLogined()) {
+      System.out.println("현재 로그인 되어 있습니다.");
+      return;
+    }
+
+    System.out.println("== 비밀번호 찾기 ==");
+
+    System.out.printf("로그인 아이디 : ");
+    String loginId = scanner.nextLine().trim();
+
+    if (loginId.length() == 0) {
+      System.out.println("로그인 아이디를 입력해주세요.");
+      return;
+    }
+
+    Member member = memberService.getMemberByLoginId(loginId);
+
+    if (member == null) {
+      System.out.println("입력하신 로그인 아이디는 존재하지 않습니다.");
+      return;
+    }
+
+    System.out.printf("이메일 : ");
+    String email = scanner.nextLine().trim();
+
+    if (email.length() == 0) {
+      System.out.println("이메일을 입력해주세요.");
+      return;
+    }
+
+    member = memberService.getMemberByEmail(email);
+
+    if (member == null) {
+      System.out.println("입력하신 이메일은 존재하지 않습니다.");
+      return;
+    }
+
+    System.out.printf("새 비밀번호 : ");
+    String loginPw = scanner.nextLine().trim();
+
+    if (loginPw.length() == 0) {
+      System.out.println("새 비밀번호를 입력해주세요.");
+      return;
+    }
+
+    System.out.printf("새 비밀번호 확인 : ");
+    String loginPwConfirm = scanner.nextLine().trim();
+
+    if (loginPwConfirm.length() == 0) {
+      System.out.println("새 비밀번호 확인을 입력해주세요.");
+      return;
+    }
+
+    if (loginPwConfirm.equals(loginPw) == false) {
+      System.out.println("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    memberService.findLoginPw(loginId, email, loginPw);
+
+    System.out.println("비밀번호가 변경되었습니다.");
+
+  }
 }

@@ -80,6 +80,8 @@ public class App {
       Container.memberController.logout();
     } else if (rq.getUrlPath().equals("/usr/member/whoami")) {
       Container.memberController.whoami();
+    } else if (rq.getUrlPath().equals("/usr/member/findLoginPw")) {
+      Container.memberController.findLoginPw();
     } else if (rq.getUrlPath().equals("exit")) {
       System.out.println("프로그램 종료");
       System.exit(0);

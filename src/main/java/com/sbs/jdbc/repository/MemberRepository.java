@@ -43,4 +43,28 @@ public class MemberRepository {
 
     return new Member(memberMap);
   }
+
+  public Member getMemberByEmail(String email) {
+    SecSql sql = new SecSql();
+    sql.append("SELECT *");
+    sql.append("FROM `member`");
+    sql.append("WHERE email = ?", email);
+
+    Map<String, Object> memberMap = DBUtil.selectRow(Container.conn, sql);
+
+    if(memberMap.isEmpty()) {
+      return null;
+    }
+
+    return new Member(memberMap);
+  }
+
+  public void findLoginPw(String loginId, String email, String loginPw) {
+    SecSql sql = new SecSql();
+    sql.append("UPDATE `member`");
+    sql.append("SET loginPw = ?", loginPw);
+    sql.append("WHERE loginId = ?", loginId);
+
+    DBUtil.update(Container.conn, sql);
+  }
 }
