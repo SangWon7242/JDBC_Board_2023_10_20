@@ -210,6 +210,13 @@ public class MemberController extends Controller {
       return;
     }
 
+    boolean isMatch = memberService.checkLoginIdEmailMatch(loginId, email) == 1;
+
+    if (isMatch == false) {
+      System.out.println("입력한 로그인 아이디와 이메일은 일치하지 않습니다.");
+      return;
+    }
+
     System.out.printf("새 비밀번호 : ");
     String loginPw = scanner.nextLine().trim();
 

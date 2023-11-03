@@ -64,7 +64,18 @@ public class MemberRepository {
     sql.append("UPDATE `member`");
     sql.append("SET loginPw = ?", loginPw);
     sql.append("WHERE loginId = ?", loginId);
+    sql.append("AND email = ?", email);
 
     DBUtil.update(Container.conn, sql);
+  }
+
+  public int checkLoginIdEmailMatch(String loginId, String email) {
+    SecSql sql = new SecSql();
+    sql.append("SELECT COUNT(*)");
+    sql.append("FROM `member`");
+    sql.append("WHERE loginId = ?", loginId);
+    sql.append("AND email = ?", email);
+
+    return DBUtil.selectRowIntValue(Container.conn, sql);
   }
 }

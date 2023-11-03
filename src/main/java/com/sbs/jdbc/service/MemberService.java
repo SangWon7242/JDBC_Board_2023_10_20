@@ -30,4 +30,8 @@ public class MemberService {
   public void findLoginPw(String loginId, String email, String loginPw) {
     memberRepository.findLoginPw(loginId, email, loginPw);
   }
+
+  public int checkLoginIdEmailMatch(String loginId, String email) {
+    return memberRepository.checkLoginIdEmailMatch(loginId, email);
+  }
 }
