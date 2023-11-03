@@ -59,10 +59,19 @@ public class ArticleController extends Controller {
 
     System.out.println("== 게시물 상세보기 ==");
 
+    articleService.increaseHit(id);
     Article article = articleService.getArticleById(id);
+
+    if(article == null) {
+      System.out.println("해당 게시물은 존재하지 않습니다.");
+      return;
+    }
 
     System.out.printf("번호 : %d\n", article.getId());
     System.out.printf("작성날짜 : %s\n", article.getRegDate());
+    System.out.printf("수정날짜 : %s\n", article.getUpdateDate());
+    System.out.printf("작성자 : %s\n", article.getExtra__writerName());
+    System.out.printf("조회수 : %d\n", article.getHit());
     System.out.printf("제목 : %s\n", article.getTitle());
     System.out.printf("내용 : %s\n", article.getContent());
   }

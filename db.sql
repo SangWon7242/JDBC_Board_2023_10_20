@@ -26,7 +26,7 @@ CREATE TABLE `member` (
 	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
 	updateDate DATETIME NOT NULL,
-	loginId CHAR(20) NOT NULL UNIQUE, # 로그인 아이디는 중복되면 안된다. 그래서 UNIQUE를 걸어줘야함
+	loginId CHAR(20) NOT NULL UNIQUE, # 로그인 아이디는 중복되면 안된다.
 	loginPw CHAR(100) NOT NULL,
 	`name` CHAR(100) NOT NULL
 );
@@ -55,3 +55,39 @@ loginPw = '1234',
 
 # 게시물 테이블에 memberId 칼럼 추가
 ALTER TABLE article ADD COLUMN memberId INT(10) UNSIGNED NOT NULL AFTER updateDate;
+
+# 게시물에 hit 칼럼 추가
+ALTER TABLE article ADD COLUMN hit INT(10) UNSIGNED NOT NULL AFTER `content`;
+
+# 테스트 게시물 데이터
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 1,
+title = '제목1',
+content = '내용1',
+hit = 3;
+
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 1,
+title = '제목2',
+content = '내용2',
+hit = 8;
+
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+title = '제목3',
+content = '내용3',
+hit = 20;
+
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 3,
+title = '제목4',
+content = '내용4',
+hit = 12;
