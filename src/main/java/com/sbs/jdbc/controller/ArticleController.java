@@ -23,7 +23,7 @@ public class ArticleController extends Controller {
 
     int boardId = rq.getIntParam("boardId", 0);
 
-    if(boardId == 0) {
+    if (boardId == 0) {
       System.out.println("boardId를 입력해주세요.");
       System.out.println("자유게시판 : 1");
       System.out.println("공지사항 게시판 : 2");
@@ -46,6 +46,7 @@ public class ArticleController extends Controller {
 
   public void showList(Rq rq) {
     int page = rq.getIntParam("page", 1);
+    int boardId = rq.getIntParam("boardId", 0);
     String searchKeyword = rq.getParam("searchKeyword", "");
     String searchKeywordTypeCode = rq.getParam("searchKeywordTypeCode", "");
 
@@ -55,14 +56,31 @@ public class ArticleController extends Controller {
     // 임시
     pageItemCount = 5;
 
-    List<Article> articles = articleService.getForPrintArticles(page, pageItemCount, searchKeyword, searchKeywordTypeCode);
+    List<Article> articles = null;
+    String boardTitle = "";
+
+    switch (boardId) {
+      case 0:
+        boardTitle = "전체";
+        articles = articleService.getForPrintArticles(page, pageItemCount, searchKeyword, searchKeywordTypeCode);
+        break;
+      case 1:
+        boardTitle = "자유";
+        articles = articleService.getForPrintArticlesByBoard(page, boardId, pageItemCount, searchKeyword, searchKeywordTypeCode);
+        break;
+      case 2:
+        boardTitle = "공지사항";
+        articles = articleService.getForPrintArticlesByBoard(page, boardId, pageItemCount, searchKeyword, searchKeywordTypeCode);
+        break;
+    }
+
 
     if (articles.isEmpty()) {
       System.out.println("게시물이 존재하지 않습니다.");
       return;
     }
 
-    System.out.println("== 게시물 리스트 ==");
+    System.out.printf("== %s 게시판 게시물 리스트 ==\n", boardTitle);
 
     System.out.println("번호 / 작성날짜 / 제목 / 작성자");
 
@@ -79,7 +97,7 @@ public class ArticleController extends Controller {
     articleService.increaseHit(id);
     Article article = articleService.getArticleById(id);
 
-    if(article == null) {
+    if (article == null) {
       System.out.printf("%d번 게시물은 존재하지 않습니다.", id);
       return;
     }
@@ -103,12 +121,12 @@ public class ArticleController extends Controller {
 
     Article article = articleService.getArticleById(id);
 
-    if(article == null) {
+    if (article == null) {
       System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
       return;
     }
 
-    if(article.getMemberId() != Container.session.loginedMember.getId()) {
+    if (article.getMemberId() != Container.session.loginedMember.getId()) {
       System.out.println("권한이 없습니다.");
       return;
     }
@@ -135,12 +153,12 @@ public class ArticleController extends Controller {
 
     Article article = articleService.getArticleById(id);
 
-    if(article == null) {
+    if (article == null) {
       System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
       return;
     }
 
-    if(article.getMemberId() != Container.session.loginedMember.getId()) {
+    if (article.getMemberId() != Container.session.loginedMember.getId()) {
       System.out.println("권한이 없습니다.");
       return;
     }

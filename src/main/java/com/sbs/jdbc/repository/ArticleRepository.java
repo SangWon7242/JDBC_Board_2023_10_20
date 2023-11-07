@@ -87,6 +87,81 @@ public class ArticleRepository {
     return articles;
   }
 
+  public List<Article> getForPrintArticlesByBoard(Map<String, Object> args) {
+    String searchKeyword = "";
+    String searchKeywordTypeCode = "";
+    int boardId = -1;
+
+    if(args.containsKey("boardId")) {
+      boardId = (int) args.get("boardId");
+    }
+
+    if(args.containsKey("searchKeyword")) {
+      searchKeyword = (String) args.get("searchKeyword");
+    }
+
+    if(args.containsKey("searchKeywordTypeCode")) {
+      searchKeywordTypeCode = (String) args.get("searchKeywordTypeCode");
+    }
+
+    int limitFrom = -1;
+    int limitTake = -1;
+
+    if(args.containsKey("limitFrom")) {
+      limitFrom = (int) args.get("limitFrom");
+    }
+
+    if(args.containsKey("limitTake")) {
+      limitTake = (int) args.get("limitTake");
+    }
+
+    SecSql sql = new SecSql();
+    sql.append("SELECT A.*, M.name AS extra__writerName");
+    sql.append("FROM article AS A");
+    sql.append("INNER JOIN `member` AS M");
+    sql.append("ON A.memberId = M.id");
+
+    if(boardId != -1) {
+      sql.append("INNER JOIN board AS B");
+      sql.append("ON A.boardId = B.id");
+    }
+
+    if(searchKeyword.length() > 0) {
+      switch (searchKeywordTypeCode) {
+        case "title,content":
+          sql.append("WHERE A.title LIKE CONCAT('%', ?, '%')", searchKeyword);
+          sql.append("OR A.content LIKE CONCAT('%', ?, '%')", searchKeyword);
+          break;
+        case "title":
+          sql.append("WHERE A.title LIKE CONCAT('%', ?, '%')", searchKeyword);
+          break;
+        case "content":
+          sql.append("WHERE A.content LIKE CONCAT('%', ?, '%')", searchKeyword);
+          break;
+      }
+    }
+
+    if(boardId != -1) {
+      sql.append("WHERE A.boardId = ?", boardId);
+    }
+
+    sql.append("ORDER BY id DESC");
+
+    if(limitFrom != -1) {
+      sql.append("LIMIT ?, ?", limitFrom, limitTake);
+    }
+
+    List<Article> articles = new ArrayList<>();
+
+    List<Map<String, Object>> articlesMap = DBUtil.selectRows(Container.conn, sql);
+
+    for(Map<String, Object> articleMap : articlesMap) {
+      articles.add(new Article(articleMap));
+    }
+
+    return articles;
+  }
+
   public int getArticleCount(int id) {
     SecSql sql = new SecSql();
     sql.append("SELECT COUNT(*) AS cnt");
