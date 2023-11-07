@@ -38,6 +38,7 @@ public class ArticleController extends Controller {
   public void showList(Rq rq) {
     int page = rq.getIntParam("page", 1);
     String searchKeyword = rq.getParam("searchKeyword", "");
+    String searchKeywordTypeCode = rq.getParam("searchKeywordTypeCode", "");
 
     // 한페이지에 몇 개 보여줄 건지 정하는 녀석
     int pageItemCount = 10;
@@ -45,7 +46,7 @@ public class ArticleController extends Controller {
     // 임시
     pageItemCount = 5;
 
-    List<Article> articles = articleService.getForPrintArticles(page, pageItemCount, searchKeyword);
+    List<Article> articles = articleService.getForPrintArticles(page, pageItemCount, searchKeyword, searchKeywordTypeCode);
 
     if (articles.isEmpty()) {
       System.out.println("게시물이 존재하지 않습니다.");

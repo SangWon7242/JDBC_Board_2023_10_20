@@ -25,11 +25,15 @@ public class ArticleRepository {
   }
 
   public List<Article> getForPrintArticles(Map<String, Object> args) {
-
     String searchKeyword = "";
+    String searchKeywordTypeCode = "";
 
     if(args.containsKey("searchKeyword")) {
       searchKeyword = (String) args.get("searchKeyword");
+    }
+
+    if(args.containsKey("searchKeywordTypeCode")) {
+      searchKeywordTypeCode = (String) args.get("searchKeywordTypeCode");
     }
 
     int limitFrom = -1;
@@ -49,7 +53,18 @@ public class ArticleRepository {
     sql.append("INNER JOIN `member` AS M");
     sql.append("ON A.memberId = M.id");
     if(searchKeyword.length() > 0) {
-      sql.append("WHERE A.title LIKE CONCAT('%', ?, '%')", searchKeyword);
+      switch (searchKeywordTypeCode) {
+        case "title,content":
+          sql.append("WHERE A.title LIKE CONCAT('%', ?, '%')", searchKeyword);
+          sql.append("OR A.content LIKE CONCAT('%', ?, '%')", searchKeyword);
+          break;
+        case "title":
+          sql.append("WHERE A.title LIKE CONCAT('%', ?, '%')", searchKeyword);
+          break;
+        case "content":
+          sql.append("WHERE A.content LIKE CONCAT('%', ?, '%')", searchKeyword);
+          break;
+      }
     }
     sql.append("ORDER BY id DESC");
 
