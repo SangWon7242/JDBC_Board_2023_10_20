@@ -10,14 +10,18 @@ import java.util.List;
 import java.util.Map;
 
 public class ArticleRepository {
-  public int write(int memberId, String title, String content) {
+  public int write(int memberId, int boardId, String title, String content) {
+    int defaultHitCount = 0;
+
     SecSql sql = new SecSql();
     sql.append("INSERT INTO article");
     sql.append("SET regDate = NOW()");
     sql.append(", updateDate = NOW()");
     sql.append(", memberId = ?", memberId);
+    sql.append(", boardId = ?", boardId);
     sql.append(", title = ?", title);
     sql.append(", `content` = ?", content);
+    sql.append(", hit = ?", defaultHitCount);
 
     int id = DBUtil.insert(Container.conn, sql);
 

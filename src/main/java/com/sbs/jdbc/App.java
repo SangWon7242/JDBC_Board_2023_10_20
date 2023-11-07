@@ -63,7 +63,7 @@ public class App {
 
   private void action(Rq rq) {
     if (rq.getUrlPath().equals("/usr/article/write")) {
-      Container.articleController.doWrite();
+      Container.articleController.doWrite(rq);
     } else if (rq.getUrlPath().equals("/usr/article/list")) {
       Container.articleController.showList(rq);
     } else if (rq.getUrlPath().equals("/usr/article/detail")) {

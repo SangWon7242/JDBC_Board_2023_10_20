@@ -15,9 +15,18 @@ public class ArticleController extends Controller {
     scanner = Container.scanner;
   }
 
-  public void doWrite() {
+  public void doWrite(Rq rq) {
     if (Container.session.isLogined() == false) {
       System.out.println("로그인 후 이용해주세요.");
+      return;
+    }
+
+    int boardId = rq.getIntParam("boardId", 0);
+
+    if(boardId == 0) {
+      System.out.println("boardId를 입력해주세요.");
+      System.out.println("자유게시판 : 1");
+      System.out.println("공지사항 게시판 : 2");
       return;
     }
 
@@ -30,7 +39,7 @@ public class ArticleController extends Controller {
     String content = scanner.nextLine();
 
     int memberId = Container.session.loginedMember.getId();
-    int id = articleService.write(memberId, title, content);
+    int id = articleService.write(memberId, boardId, title, content);
 
     System.out.printf("%d번 게시물을 작성하였습니다.\n", id);
   }

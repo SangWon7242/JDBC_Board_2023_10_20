@@ -15,8 +15,8 @@ public class ArticleService {
     articleRepository = Container.articleRepository;
   }
 
-  public int write(int memberId, String title, String content) {
-    return articleRepository.write(memberId, title, content);
+  public int write(int memberId, int boardId, String title, String content) {
+    return articleRepository.write(memberId, boardId, title, content);
   }
 
   public List<Article> getForPrintArticles(int page, int pageItemCount, String searchKeyword, String searchKeywordTypeCode) {
